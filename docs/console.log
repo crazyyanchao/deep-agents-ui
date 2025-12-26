@@ -1,0 +1,21 @@
+useChat.ts:58 BlockingError: Blocking call to os.access
+
+Heads up! LangGraph dev identified a synchronous blocking call in your code. When running in an ASGI web server, blocking calls can degrade performance for everyone since they tie up the event loop.
+
+Here are your options to fix this:
+
+1. Best approach: Convert any blocking code to use async/await patterns
+   For example, use 'await aiohttp.get()' instead of 'requests.get()'
+
+2. Quick fix: Move blocking operations to a separate thread
+   Example: 'await asyncio.to_thread(your_blocking_function)'
+
+3. Override (if you can't change the code):
+   - For development: Run 'langgraph dev --allow-blocking'
+   - For deployment: Set 'BG_JOB_ISOLATED_LOOPS=true' environment variable
+
+These blocking operations can prevent health checks and slow down other runs in your deployment. Following these recommendations will help keep your LangGraph application running smoothly!
+    at StreamManager.start (manager.ts:245:25)
+    at async Object.submit (stream.lgp.tsx:405:5)
+browserPolyfillWrapper-7b242732.js:767 Failed to fetch session for ext-cs 
+{message: 'Network Error', name: 'AxiosError', stack: 'AxiosError: Network Error\n    at fetch (chrome-ext…ssets/browserPolyfillWrapper-7b242732.js:27:2055)', config: {…}, code: 'ERR_NETWORK'}
